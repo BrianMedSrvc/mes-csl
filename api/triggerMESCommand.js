@@ -1,19 +1,10 @@
-// proxy-server/api/index.js
+// Vercel Serverless Function Format (NO express)
 
-const express = require('express');
-const fetch = require('node-fetch');
-const app = express();
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method Not Allowed' });
+  }
 
-app.use(express.json());
-
-// ✅ Allow GPT to call us
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With');
-  next();
-});
-
-app.post('/', async (req, res) => {
   const { command } = req.body;
 
   if (!command) {
@@ -24,15 +15,14 @@ app.post('/', async (req, res) => {
     const response = await fetch("https://script.google.com/macros/s/AKfycbyHm-EjXQWoXSExo7_PZDPBT0XBgSprwg1v9sW4NmHrWmSCLEpepf7WlfuenOPE2NPQ/exec", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ command })
+      body: JSON.stringify({ command }),
     });
 
     const result = await response.json();
-    res.json({ proxy_status: 'ok', google_response: result });
+    res.status(200).json({ proxy_status: 'ok', google_response: result });
+
   } catch (err) {
     console.error('Proxy error:', err);
     res.status(500).json({ error: 'Proxy failed', detail: err.message });
   }
-});
-
-module.exports = app;
+}
