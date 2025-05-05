@@ -21,7 +21,7 @@ app.post('/', async (req, res) => {
   }
 
   try {
-    const response = await fetch("https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec", {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbyHm-EjXQWoXSExo7_PZDPBT0XBgSprwg1v9sW4NmHrWmSCLEpepf7WlfuenOPE2NPQ/exec", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ command })
