@@ -1,19 +1,8 @@
-// proxy-server/api/index.js
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method Not Allowed' });
+  }
 
-const express = require('express');
-const fetch = require('node-fetch');
-const app = express();
-
-app.use(express.json());
-
-// ✅ Allow GPT to call us
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With');
-  next();
-});
-
-app.post('/', async (req, res) => {
   const { command } = req.body;
 
   if (!command) {
@@ -28,11 +17,10 @@ app.post('/', async (req, res) => {
     });
 
     const result = await response.json();
-    res.json({ proxy_status: 'ok', google_response: result });
+    return res.status(200).json({ proxy_status: 'ok', google_response: result });
+
   } catch (err) {
     console.error('Proxy error:', err);
-    res.status(500).json({ error: 'Proxy failed', detail: err.message });
+    return res.status(500).json({ error: 'Proxy failed', detail: err.message });
   }
-});
-
-module.exports = app;
+}
