@@ -1,0 +1,15 @@
+{
+  "timeZone": "America/New_York",
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "dependencies": {
+    "libraries": [
+      {
+        "userSymbol": "CSLWorksheetLibrary",
+        "libraryId": "1z022WH4JcjBW5ZDJK7-NpVk9SNGah1NOGAiPHJmzvzeXmJNZwKPzkpYh",
+        "version": "0",
+        "developmentMode": true
+      }
+    ]
+  }
+}
